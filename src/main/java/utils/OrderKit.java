@@ -2,6 +2,7 @@ package utils;
 
 import factory.DaoFactory;
 import org.joda.time.DateTime;
+import org.joda.time.IllegalFieldValueException;
 import pojo.*;
 
 import java.util.Collection;
@@ -53,7 +54,7 @@ public class OrderKit {
      * @param config
      * @throws Exception
      */
-    public static void buildOrder(String command,Config config) throws Exception {
+    public static void buildOrder(String command,Config config) throws IllegalFieldValueException, Exception {
         String[] items = command.split(" ");
         if (items.length != 4 && items.length != 5) {
             System.out.println(Const.ERROR);

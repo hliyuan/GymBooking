@@ -1,4 +1,5 @@
 import com.alibaba.fastjson.JSON;
+import org.joda.time.IllegalFieldValueException;
 import pojo.Config;
 import pojo.FeeStandard;
 import utils.Const;
@@ -30,7 +31,11 @@ public class Starter {
             if (operation.equals("")) {
                OrderKit.print(config.getGym());
             } else {
+                try{
                 OrderKit.buildOrder(operation,config);
+                }catch (IllegalFieldValueException e){
+                    System.out.println(Const.ERROR);
+                }
             }
         }
     }
