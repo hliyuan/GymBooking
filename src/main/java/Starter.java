@@ -5,8 +5,9 @@ import utils.Const;
 import utils.JsonUtils;
 import utils.OrderKit;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.List;
-import java.util.Scanner;
 
 
 /**
@@ -22,11 +23,11 @@ public class Starter {
 
     }
     public static void main(String[] args) throws Exception {
+        BufferedReader bReader=new BufferedReader(new InputStreamReader(System.in));
+        String operation=null;
+        while ((operation=bReader.readLine())!=null) {
 
-        Scanner in = new Scanner(System.in);
-        while (in.hasNext()) {
-            String operation = in.nextLine();
-            if (Const.COUNT.equals(operation)) {
+            if (operation.equals("")) {
                OrderKit.print(config.getGym());
             } else {
                 OrderKit.buildOrder(operation,config);
