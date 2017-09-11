@@ -68,33 +68,35 @@
 	- config.json
 		- 程序的配置文件，可以进行程序参数的动态修改和读取，包括**价格变动，场馆变动，开放时间等**
 
+
+
      {
-      "gym": {
-        "areaCount":4,
-        "areas":["A","B","C","D"]
-      },
-      "openTimeBegin":9,
-      "openTimeEnd":22,
-      "feeStandard": [
-        {"isWeekend": false,
-          "segmentCostList": [
-            {"beginHour":9,
-              "endHour":12,
-              "unitCost":30
-            },
-            {"beginHour":12,
-              "endHour":18,
-              "unitCost":50
-            },
-            {"beginHour":18,
-              "endHour":20,
-              "unitCost":80
-            },
-            {"beginHour":20,
-              "endHour":22,
-              "unitCost":60
-            }
-          ]
+          "gym": {
+            "areaCount":4,
+            "areas":["A","B","C","D"]
+          },
+          "openTimeBegin":9,
+          "openTimeEnd":22,
+          "feeStandard": [
+            {"isWeekend": false,
+              "segmentCostList": [
+                {"beginHour":9,
+                  "endHour":12,
+                  "unitCost":30
+                },
+                {"beginHour":12,
+                  "endHour":18,
+                  "unitCost":50
+                },
+                {"beginHour":18,
+                  "endHour":20,
+                  "unitCost":80
+                },
+                {"beginHour":20,
+                  "endHour":22,
+                  "unitCost":60
+                }
+              ]
 
         },
         {"isWeekend": true,
