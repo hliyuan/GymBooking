@@ -201,13 +201,13 @@ public class OrderKit {
         System.out.println("> ---");
     }
 
-    public static int printInfo(String areName) throws Exception {
+    public static double printInfo(String areName) throws Exception {
 
         System.out.println("> 场地:"+areName);
         Collection<Order> orders= DaoFactory.getOrderDao().selectAllOrder(areName);
 
 
-        int all=0;
+        double all=0;
         if(null != orders) {
             Collections.sort((List<Order>) orders,new OrderComparator());
             for (Order order : orders) {
@@ -226,14 +226,14 @@ public class OrderKit {
         return all;
     }
 
-    public static void printAfter(int tootalPrice){
+    public static void printAfter(double tootalPrice){
         System.out.println("> ---");
         System.out.println("> 总计: "+tootalPrice+"元");
     }
 
     public static void print(Gyms gyms) throws Exception {
         List<String> areas =gyms.getAreas();
-        int all=0;
+        double all=0;
         printBefore();
         for (String areaName:areas){
             all+= printInfo(areaName);
