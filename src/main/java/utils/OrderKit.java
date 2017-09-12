@@ -80,8 +80,10 @@ public class OrderKit {
                     System.out.println(Const.ERROR);
                 }
                 else {//校验日期YYYY-mm-dd,是否是将来的时间
-                DateTime dateTime = new DateTime(date);
-                    if(!dateTime.isAfter(DateTime.now())){
+                    String[] day =parseDay(date);
+                    DateTime dateTime = new DateTime(Integer.parseInt(day[0]), Integer.parseInt(day[1]), Integer.parseInt(day[2]), begin, end);
+
+                    if(!dateTime.isAfterNow()){
                         System.out.println(Const.ERROR);
                     }else {
                         Order order = new Order();
@@ -118,23 +120,36 @@ public class OrderKit {
                     ) {
                 System.out.println(Const.ERROR);
 
-            } else {
-
-                DateTime dateTime = new DateTime(date);
-                if (!dateTime.isAfter(DateTime.now())) {
+            }else if(PatternKit.isHours(hours)) {
+                String[] times = hours.split("~");
+                int begin = Integer.parseInt(times[0].split(":")[0]);
+                int end = (Integer.parseInt(times[1].split(":")[0]));
+                if (begin >= end || begin < config.getOpenTimeBegin() || end > config.getOpenTimeEnd()) {
                     System.out.println(Const.ERROR);
                 } else {
-                    Order order = new Order();
-                    User user = new User();
-                    user.setUid(uid);
-                    order.setUser(user);
-                    String[] times = hours.split("~");
-                    order.setBegin(Integer.parseInt(times[0].split(":")[0]));
-                    order.setEnd(Integer.parseInt(times[1].split(":")[0]));
-                    order.setDate(date);
-                    order.setOrderId(user.getUid()+"_"+DateKit.getCurrentUnixTime());
-                    order.setAreaName(where);
-                    getOrderDao().deleteOrder(order);
+                    String[] day = parseDay(date);
+                    DateTime dateTime = new DateTime(Integer.parseInt(day[0]), Integer.parseInt(day[1]), Integer.parseInt(day[2]), begin, end);
+
+                    if (!dateTime.isAfterNow()) {
+                        System.out.println(Const.ERROR);
+                    } else {
+
+                        if (!dateTime.isAfter(DateTime.now())) {
+                            System.out.println(Const.ERROR);
+                        } else {
+                            Order order = new Order();
+                            User user = new User();
+                            user.setUid(uid);
+                            order.setUser(user);
+                            order.setBegin(Integer.parseInt(times[0].split(":")[0]));
+                            order.setEnd(Integer.parseInt(times[1].split(":")[0]));
+                            order.setDate(date);
+                            order.setOrderId(user.getUid() + "_" + DateKit.getCurrentUnixTime());
+                            order.setAreaName(where);
+                            getOrderDao().deleteOrder(order);
+                        }
+                    }
+
                 }
             }
 
@@ -242,6 +257,10 @@ public class OrderKit {
         printAfter(all);
     }
 
+
+    public static String[] parseDay(String date){
+        return date.split("-");
+    }
 
 }
 

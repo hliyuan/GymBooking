@@ -1,4 +1,5 @@
 import com.alibaba.fastjson.JSON;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import pojo.Config;
 import pojo.FeeStandard;
@@ -32,5 +33,12 @@ public class JsonTest {
         OrderKit.buildOrder("U003 2017-09-18 13:00~22:00 B",config);
         OrderKit.buildOrder("U001 2017-09-17 12:00~14:00 A C",config);
         //OrderKit.print(config.getGym());
+    }
+    @Test
+    public void testJoda(){
+        DateTime dateTime =new DateTime(2017,9,12,20,00);
+        System.out.println(dateTime);
+        System.out.println(DateTime.now());
+        System.out.println(!dateTime.isAfterNow());
     }
 }

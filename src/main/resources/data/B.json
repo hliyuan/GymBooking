@@ -1,28 +1,15 @@
 [
 	{
 		"areaName":"B",
-		"begin":9,
+		"begin":10,
 		"cancel":false,
-		"date":"2017-09-18",
-		"end":13,
-		"orderId":"U001_1505136411",
-		"penalty":0.0,
-		"totalPrice":140,
-		"user":{
-			"uid":"U001"
-		}
-	},
-	{
-		"areaName":"B",
-		"begin":13,
-		"cancel":false,
-		"date":"2017-09-18",
+		"date":"2017-09-12",
 		"end":22,
-		"orderId":"U003_1505136411",
+		"orderId":"u002_1505180647",
 		"penalty":0.0,
-		"totalPrice":530,
+		"totalPrice":640,
 		"user":{
-			"uid":"U003"
+			"uid":"u002"
 		}
 	}
 ]
