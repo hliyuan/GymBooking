@@ -1,0 +1,28 @@
+[
+	{
+		"areaName":"A",
+		"begin":18,
+		"cancel":false,
+		"date":"2017-09-13",
+		"end":20,
+		"orderId":"u001_1505149384",
+		"penalty":0.0,
+		"totalPrice":160,
+		"user":{
+			"uid":"u001"
+		}
+	},
+	{
+		"areaName":"A",
+		"begin":12,
+		"cancel":false,
+		"date":"2017-09-13",
+		"end":14,
+		"orderId":"u003_1505149420",
+		"penalty":0.0,
+		"totalPrice":100,
+		"user":{
+			"uid":"u003"
+		}
+	}
+]

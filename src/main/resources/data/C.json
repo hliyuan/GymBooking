@@ -1,0 +1,15 @@
+[
+	{
+		"areaName":"C",
+		"begin":18,
+		"cancel":false,
+		"date":"2017-09-20",
+		"end":20,
+		"orderId":"u005_1505149488",
+		"penalty":0.0,
+		"totalPrice":160,
+		"user":{
+			"uid":"u005"
+		}
+	}
+]

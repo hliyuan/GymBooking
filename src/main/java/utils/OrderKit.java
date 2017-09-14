@@ -16,6 +16,7 @@ import static factory.DaoFactory.getOrderDao;
  * Created by liyuan on 2017/9/10.
  */
 public class OrderKit {
+
     /**
      * 对比当前订单,是否与已有的相互冲突
      * 冲突返回true,否则false
