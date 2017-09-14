@@ -17,6 +17,9 @@ import java.util.List;
  */
 public class OrderDaoImpl implements OrderDao {
     List<Order> orders =new ArrayList<Order>();
+
+
+
     public void insertOrder(Order o) throws Exception {
 
         Collection<Order> temp = this.selectAllOrder(o.getAreaName());
@@ -27,7 +30,6 @@ public class OrderDaoImpl implements OrderDao {
             }
         }
         os.add(o);
-
         JsonUtils.WriteOrderJsonToFile(o.getAreaName(),os);
         System.out.println(Const.BOOKING_SUCCESS);
 
@@ -74,6 +76,7 @@ public class OrderDaoImpl implements OrderDao {
         if (!file.exists()) return null;
         String ordersJson = JsonUtils.ReadJsonFile(file.getPath());
         orders= JSON.parseArray(ordersJson,Order.class);
+
         return orders;
     }
 

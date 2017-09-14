@@ -27,12 +27,14 @@ public class OrderKit {
      */
     public static boolean hasConflicted(Collection<Order> orders, Order o) throws Exception {
         if (null ==orders)  return false;
+
         for (Order order : orders) {
+
             if (order.isCancel()) continue;
-
+            if (!(order.getDate().equals(o.getDate()))) continue;
             if ((o.getEnd()<=order.getBegin()) || (o.getBegin()>=order.getEnd())){
+                continue;
 
-                return  false;
             }else{
                 return true;
             }
@@ -65,10 +67,10 @@ public class OrderKit {
             String date = items[1];
             String hours = items[2];
             String where = items[3];
-            //校验日期格式是不是YYYY-mm-dd,时间段是不是HH:00~YY:00,取消是不是"C"
+            //校验日期格式是不是YYYY-mm-dd,时间段是不是HH:00~YY:00,场地是否存在，取消是不是"C"
             if (!PatternKit.isDate(date)
                     || !PatternKit.isHours(hours)
-                    || !PatternKit.isWhere(where)
+                    || !PatternKit.isWhere(where,config)
                     )
             {
                 System.out.println(Const.ERROR);
@@ -81,8 +83,10 @@ public class OrderKit {
                     System.out.println(Const.ERROR);
                 }
                 else {//校验日期YYYY-mm-dd,是否是将来的时间
-                DateTime dateTime = new DateTime(date);
-                    if(!dateTime.isAfter(DateTime.now())){
+                    String[] day =parseDay(date);
+                    DateTime dateTime = new DateTime(Integer.parseInt(day[0]), Integer.parseInt(day[1]), Integer.parseInt(day[2]), begin, 0);
+
+                    if(!dateTime.isAfterNow()){
                         System.out.println(Const.ERROR);
                     }else {
                         Order order = new Order();
@@ -96,6 +100,7 @@ public class OrderKit {
                         order.setAreaName(where);
                         order.setTotalPrice(computeOrderFee(order, config.getFeeStandard()));
                         Collection<Order> orders = getOrderDao().selectAllOrder(order.getAreaName());
+
                         if (OrderKit.hasConflicted(orders, order)) {
                             System.out.println(Const.BOOKING_CONFLICT);
                         } else {
@@ -114,28 +119,41 @@ public class OrderKit {
             String ops = items[4];
             if (!PatternKit.isDate(date)
                     || !PatternKit.isHours(hours)
-                    || !PatternKit.isWhere(where)
+                    || !PatternKit.isWhere(where,config)
                     || !PatternKit.isCancel(ops)
                     ) {
                 System.out.println(Const.ERROR);
 
-            } else {
-
-                DateTime dateTime = new DateTime(date);
-                if (!dateTime.isAfter(DateTime.now())) {
+            }else if(PatternKit.isHours(hours)) {
+                String[] times = hours.split("~");
+                int begin = Integer.parseInt(times[0].split(":")[0]);
+                int end = (Integer.parseInt(times[1].split(":")[0]));
+                if (begin >= end || begin < config.getOpenTimeBegin() || end > config.getOpenTimeEnd()) {
                     System.out.println(Const.ERROR);
                 } else {
-                    Order order = new Order();
-                    User user = new User();
-                    user.setUid(uid);
-                    order.setUser(user);
-                    String[] times = hours.split("~");
-                    order.setBegin(Integer.parseInt(times[0].split(":")[0]));
-                    order.setEnd(Integer.parseInt(times[1].split(":")[0]));
-                    order.setDate(date);
-                    order.setOrderId(user.getUid()+"_"+DateKit.getCurrentUnixTime());
-                    order.setAreaName(where);
-                    getOrderDao().deleteOrder(order);
+                    String[] day = parseDay(date);
+                    DateTime dateTime = new DateTime(Integer.parseInt(day[0]), Integer.parseInt(day[1]), Integer.parseInt(day[2]), begin, end);
+
+                    if (!dateTime.isAfterNow()) {
+                        System.out.println(Const.ERROR);
+                    } else {
+
+                        if (!dateTime.isAfter(DateTime.now())) {
+                            System.out.println(Const.ERROR);
+                        } else {
+                            Order order = new Order();
+                            User user = new User();
+                            user.setUid(uid);
+                            order.setUser(user);
+                            order.setBegin(Integer.parseInt(times[0].split(":")[0]));
+                            order.setEnd(Integer.parseInt(times[1].split(":")[0]));
+                            order.setDate(date);
+                            order.setOrderId(user.getUid() + "_" + DateKit.getCurrentUnixTime());
+                            order.setAreaName(where);
+                            getOrderDao().deleteOrder(order);
+                        }
+                    }
+
                 }
             }
 
@@ -243,6 +261,10 @@ public class OrderKit {
         printAfter(all);
     }
 
+
+    public static String[] parseDay(String date){
+        return date.split("-");
+    }
 
 }
 

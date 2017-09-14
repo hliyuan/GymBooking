@@ -4,6 +4,9 @@ package utils;
  * Created by liyuan on 2017/3/16.
  */
 
+import pojo.Config;
+
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -31,8 +34,12 @@ public final class PatternKit {
         return Pattern.matches(regex,hours);
     }
 
-    public static boolean isWhere(String where) {
-        return true;
+    public static boolean isWhere(String where, Config config) {
+        List<String> areas = config.getGym().getAreas();
+        if (areas.contains(where))
+            return true;
+        else
+            return false;
     }
 
     /**
@@ -44,6 +51,12 @@ public final class PatternKit {
         return cancel.equals("C");
     }
 
+    /**
+     * 汇总时，每个场馆的预定取消，都需要按时间排序。早上9点，输入为09，
+     * 但是对比的时候会取int值9，所以此处将其转为String再做比较。
+     *
+     *
+     * */
     public static String transfer(int time){
         if (time<10){
             return "0"+time;
